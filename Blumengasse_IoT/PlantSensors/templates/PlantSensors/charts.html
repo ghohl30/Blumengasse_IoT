@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+  <div class="row min-vh-100 align-items-center p-5 present">
+    <!-- <div class="position-relative">
+      <div class="position-absolute top-50 start-50 translate-middle">
+      </div>
+    </div> -->
+
+    <!--
+    <div class="col">
+      <canvas id="myChart" width="16" height="9"></canvas>
+    </div>
+    <div class="col">
+      <canvas id="myChart2" width="16" height="9"></canvas>
+    </div>
+  -->
+
+    <div id="plotting"></div>
+
+    <!-- <canvas id="myChart" width="16" height="9"></canvas>
+    <canvas id="myChart2" width="16" height="9"></canvas> -->
+  </div>
+{% endblock %}
+
+
+{% block javascript %}
+
+<script>
+// const ctx = document.getElementById('myChart');
+// const myChart = new Chart(ctx, {
+//     type: 'line',
+//     data: {
+//         labels: {{time|safe}},
+//         datasets: [{
+//             label: '# of Votes',
+//             data: {{data}},
+//             borderColor: [
+//                 'rgba(255, 99, 132, 1)',
+//             ],
+//             borderWidth: 1
+//         }]
+//     },
+//     options: {
+//         plugins: {
+//             title: {
+//                 display: true,
+//                 text: '{{type}}'
+//             }
+//         },
+//         scales: {
+//             x: {
+//                 type: 'time',
+//                 time: {
+//                     unit: 'minute'
+//                 }
+//             }
+//         }
+//         // responsive: true,
+//         // maintainAspectRatio: false
+//     }
+// });
+const cont = document.getElementById('plotting');
+{% for plot in  plots%}
+  var plot_canvas = document.createElement('canvas');
+  var myChart = new Chart(plot_canvas, {
+      type: 'line',
+      data: {
+          labels: {{plot.0|safe}},
+          datasets: [{
+              label: '# of Votes',
+              data: {{plot.1}},
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          plugins: {
+              title: {
+                  display: true,
+                  text: '{{plot.2}}'
+              }
+          },
+          scales: {
+              x: {
+                  type: 'time',
+                  time: {
+                      unit: 'minute'
+                  }
+              }
+          }
+          // responsive: true,
+          // maintainAspectRatio: false
+      }
+  });
+  cont.appendChild(plot_canvas);
+{% endfor %}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+<!DOCTYPE HTML>
+{% extends "base.html" %}
+{% load static %}
+
+{% block body %}
+  <div class="row min-h-75 align-items-center p-5 present">
+    <div class="col">
+        {% autoescape off %}
+            {{ plot_div }}
+        {% endautoescape %}
+    </div>
+  </div>
+{% endblock %}
