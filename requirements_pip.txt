@@ -1,0 +1,11 @@
+asgiref==3.4.1
+Django==3.2.9
+pip==21.3.1
+plotly==5.4.0
+pytz==2021.3
+setuptools==59.2.0
+six==1.16.0
+sqlparse==0.4.2
+tenacity==8.0.1
+typing_extensions==4.0.0
+wheel==0.37.0

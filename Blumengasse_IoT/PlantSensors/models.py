@@ -3,7 +3,8 @@ from django.utils import timezone
 
 # Create your models here.
 class Sensor(models.Model):
-    sensor_name = models.CharField(max_length=20)
+    sensor_id = models.IntegerField(unique=True)
+    sensor_name = models.CharField(max_length=20, unique=True)
     sensor_type = models.CharField(max_length=20)
 
     def __str__(self):
@@ -12,7 +13,8 @@ class Sensor(models.Model):
 class measurement(models.Model):
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE)
     reading = models.IntegerField()
+    type = models.CharField(max_length=20)
     time = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return str(self.reading)
+        return self.sensor.sensor_name + self.type + str(self.reading)

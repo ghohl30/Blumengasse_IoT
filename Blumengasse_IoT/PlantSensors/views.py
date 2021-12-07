@@ -1,6 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 import datetime
+import json
+from django.views.decorators.csrf import csrf_exempt
 
 from .models import Sensor, measurement
 
@@ -103,24 +105,57 @@ def index(request):
 
     for s in Sensor.objects.all():
         queryset = measurement.objects.filter(sensor=s)
+        types = list(queryset.order_by().values_list('type', flat=True).distinct())
+        for type in types:
+            q = queryset.filter(type=type)
+            time = []
+            data = []
 
-        time = []
-        data = []
+            for r in q:
+                time.append(r.time.isoformat())
+                data.append(r.reading)
 
-        for r in queryset:
-            time.append(r.time.isoformat())
-            data.append(r.reading)
-
-        #plots.append({'time': time, 'data': data, 'type': s.sensor_type})
-        plots.append((time,data,s.sensor_type))
+            #plots.append({'time': time, 'data': data, 'type': s.sensor_type})
+            plots.append((time,data,type))
 
 
     context = {'plots': plots}
 
     return render(request, 'PlantSensors/charts.html', context=context)
 
-def get_data(request, sensor, reading):
-    sensor = Sensor.objects.get(id=sensor)
-    new_measurement = measurement(sensor=sensor, reading=reading)
-    new_measurement.save()
+@csrf_exempt
+def get_data(request, sensor_id):
+    if not request.method=='POST':
+        return HttpResponseForbidden('Nothing to get here')
+    if not request.headers['token'] == '1234':
+        return HttpResponseForbidden('Permission denied')
+
+    data = json.loads(request.body)
+    sensor = Sensor.objects.get(sensor_id=sensor_id)
+    for key, value in data.items():
+        new_measurement = measurement(sensor=sensor, reading=value, type=key)
+        new_measurement.save()
     return HttpResponse("Thanks!")
+
+@csrf_exempt
+def register_sensor(request):
+    data = json.loads(request.body)
+    if not request.method=='POST':
+        return HttpResponseForbidden('Nothing to get here')
+    if not request.headers['token'] == '1234':
+        return HttpResponseForbidden('Permission denied')
+    if not Sensor.objects.filter(sensor_id=data['sensor_id']):
+        s = Sensor(sensor_id=data['sensor_id'], sensor_type=data['sensor_type'], sensor_name=data['sensor_id'])
+        s.save()
+        return HttpResponse("Gotcha")
+    return HttpResponse("Already know you")
+
+def test_http(request):
+    print("someone requested")
+    # if request.headers['token'] == '1234':
+    #     return HttpResponse("That worked")
+    settings = {'name': 'Wohnzimmer', 'interval': 15}
+    if request.method == 'POST':
+        print('yes')
+        return JsonResponse(settings)
+    return HttpResponseForbidden("nope")

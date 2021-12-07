@@ -65,6 +65,7 @@
 const cont = document.getElementById('plotting');
 {% for plot in  plots%}
   var plot_canvas = document.createElement('canvas');
+  plot_canvas.classList.add("plot");
   var myChart = new Chart(plot_canvas, {
       type: 'line',
       data: {
@@ -92,7 +93,7 @@ const cont = document.getElementById('plotting');
                       unit: 'minute'
                   }
               }
-          }
+          },
           // responsive: true,
           // maintainAspectRatio: false
       }
