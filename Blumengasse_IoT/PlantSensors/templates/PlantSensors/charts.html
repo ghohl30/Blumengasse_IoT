@@ -3,25 +3,17 @@
 {% load static %}
 
 {% block body %}
-  <div class="row min-vh-100 align-items-center p-5 present">
-    <!-- <div class="position-relative">
-      <div class="position-absolute top-50 start-50 translate-middle">
+  <div class="row min-vh-100 align-items-center p-md-5 present">
+    <!--      <div id="plotting"></div>     -->
+    <form method = "GET">
+        {{ form }}
+        <input type = "submit" value = "Submit">
+    </form>
+    {% for plot in  plots%}
+      <div class="col-md-6 p-2 bd-highlight">
+        <canvas id="{{plot.3}}-{{plot.2}}"></canvas>
       </div>
-    </div> -->
-
-    <!--
-    <div class="col">
-      <canvas id="myChart" width="16" height="9"></canvas>
-    </div>
-    <div class="col">
-      <canvas id="myChart2" width="16" height="9"></canvas>
-    </div>
-  -->
-
-    <div id="plotting"></div>
-
-    <!-- <canvas id="myChart" width="16" height="9"></canvas>
-    <canvas id="myChart2" width="16" height="9"></canvas> -->
+    {% endfor %}
   </div>
 {% endblock %}
 
@@ -29,76 +21,48 @@
 {% block javascript %}
 
 <script>
-// const ctx = document.getElementById('myChart');
-// const myChart = new Chart(ctx, {
-//     type: 'line',
-//     data: {
-//         labels: {{time|safe}},
-//         datasets: [{
-//             label: '# of Votes',
-//             data: {{data}},
-//             borderColor: [
-//                 'rgba(255, 99, 132, 1)',
-//             ],
-//             borderWidth: 1
-//         }]
-//     },
-//     options: {
-//         plugins: {
-//             title: {
-//                 display: true,
-//                 text: '{{type}}'
-//             }
-//         },
-//         scales: {
-//             x: {
-//                 type: 'time',
-//                 time: {
-//                     unit: 'minute'
-//                 }
-//             }
-//         }
-//         // responsive: true,
-//         // maintainAspectRatio: false
-//     }
-// });
-const cont = document.getElementById('plotting');
 {% for plot in  plots%}
-  var plot_canvas = document.createElement('canvas');
-  plot_canvas.classList.add("plot");
+  var plot_canvas = document.getElementById('{{plot.3}}-{{plot.2}}');
   var myChart = new Chart(plot_canvas, {
       type: 'line',
       data: {
           labels: {{plot.0|safe}},
           datasets: [{
-              label: '# of Votes',
+              label: '{{plot.2}}',
               data: {{plot.1}},
               borderColor: [
                   'rgba(255, 99, 132, 1)',
               ],
-              borderWidth: 1
+              borderWidth: 1,
+              pointRadius: 0.1,
+              pointHoverRadius: 4,
+              tension: .1
           }]
       },
       options: {
           plugins: {
               title: {
                   display: true,
-                  text: '{{plot.2}}'
+                  text: '{{plot.3}}'
               }
           },
           scales: {
               x: {
                   type: 'time',
                   time: {
-                      unit: 'minute'
-                  }
+                      // unit: 'minute',
+                      minUnit: 'minute'
+                  },
+                  ticks: {
+                      autoSkip: true,
+                      maxTicksLimit: 15
+                  },
               }
           },
           // responsive: true,
           // maintainAspectRatio: false
       }
   });
-  cont.appendChild(plot_canvas);
 {% endfor %}
 
 </script>

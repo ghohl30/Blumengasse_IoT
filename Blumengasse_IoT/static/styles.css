@@ -1,8 +1,1 @@
-.plot {
-  background-color: white;
-  transition: background-color 0.5s;
-}
 
-.plot:hover {
-  background-color: rgb(182, 182, 219);
-}
