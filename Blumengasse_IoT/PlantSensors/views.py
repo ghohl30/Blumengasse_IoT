@@ -13,7 +13,7 @@ from plotly.subplots import make_subplots
 
 from .forms import coarse, datepicker
 
-def index(request, coarsing=1, timeframe=1):
+def index(request, coarsing=1, timeframe=24):
     if 'Auflösung' in request.GET.keys():
         coarsing=int(request.GET['Auflösung'])
     if 'Zeitrahmen' in request.GET.keys():
