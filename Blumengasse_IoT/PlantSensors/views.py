@@ -33,6 +33,7 @@ def index(request, coarsing=20, timeframe=24):
         types = list(queryset.order_by().values_list('type', flat=True).distinct())
         for type in types:
             q = queryset.filter(type=type)
+
             time = []
             data = []
 

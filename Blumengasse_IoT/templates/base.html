@@ -14,6 +14,11 @@
     <style>
         {% block style %}
         {% endblock style %}
+        @media only screen and (max-width: 700px) {
+          i {
+            font-size: x-large;
+          }
+        }
     </style>
   </head>
   <body>
@@ -28,17 +33,17 @@
                     <ul class="nav nav-pills nav-flush flex-md-column flex-row flex-nowrap mb-auto mx-auto text-center align-items-center">
                         <li class="nav-item">
                             <a href="{% url 'PlantSensors:index' %}" class="nav-link py-3 px-1" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">
-                                <i class="bi-house fa-1"></i>
+                                <i class="bi-house fa-1 p-4 p-md-0"></i>
                             </a>
                         </li>
                         <li>
                             <a href="{% url 'PlantSensors:date_view' %}" class="nav-link link-primary py-3 px-1" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Dashboard">
-                                <i class="bi bi-calendar fa-1"></i>
+                                <i class="bi bi-calendar fa-1 p-4 p-md-0"></i>
                             </a>
                         </li>
                         <li>
                             <a href="{% url 'admin:index' %}" class="nav-link py-3 px-1" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Dashboard">
-                                <i class="bi-gear fa-1"></i>
+                                <i class="bi-gear fa-1 p-4 p-md-0"></i>
                             </a>
                         </li>
                     </ul>
