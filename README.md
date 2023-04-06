@@ -30,5 +30,3 @@ Important: Make sure to upload the config.json file in the correct format to the
 The project is currently running seamlessly at my family's home. The server is hosted on a Raspberry Pi Zero, which has proven to be a reliable and energy-efficient solution for this application.
 
 Please note that the data in the first image may appear suspicious because the screenshot was taken during testing while I was constantly touching the device, and it was being charged (which leads to heating). A more current and representative image will replace the existing one the next time I visit home.
-
-Stay tuned for updates, as I will be uploading additional information such as the component list, CAD files for the sensor cases, and more.
