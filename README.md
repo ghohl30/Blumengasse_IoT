@@ -1,4 +1,5 @@
-Blumengasse_IoT
+# Blumengasse_IoT
+
 Welcome to Blumengasse IoT, a project that brings the 21<sup>st</sup> century to my parent's house by setting up a local Django webserver capable of communicating with sensors and IoT devices through the local Wi-Fi. As of now, the system consists of two humidity and temperature sensors, with plans to expand in the near future.
 
 <p align="center">
